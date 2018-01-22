@@ -31,6 +31,10 @@ func NewTransport(upstream http.RoundTripper) (*Transport, error) {
 	return &Transport{upstream, jar}, nil
 }
 
+func (t Transport) GetCookies() http.CookieJar {
+	return t.cookies
+}
+
 func (t Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	if r.Header.Get("User-Agent") == "" {
 		r.Header.Set("User-Agent", userAgent)
