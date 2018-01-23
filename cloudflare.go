@@ -28,6 +28,10 @@ func NewTransport(upstream http.RoundTripper) (*Transport, error) {
 	if err != nil {
 		return nil, err
 	}
+	return NewTransportWithCookie(upstream, jar)
+}
+
+func NewTransportWithCookie(upstream http.RoundTripper, jar *cookiejar.Jar) (*Transport, error) {
 	return &Transport{upstream, jar}, nil
 }
 
