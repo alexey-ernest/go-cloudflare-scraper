@@ -16,7 +16,7 @@ import (
 	"github.com/robertkrimen/otto"
 )
 
-const userAgent = `Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36`
+const userAgent = `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36`
 
 type Transport struct {
 	upstream http.RoundTripper
@@ -103,10 +103,9 @@ func (t Transport) solveChallenge(resp *http.Response) (*http.Response, error) {
 		return nil, err
 	}
 
-	req.Header.Set("User-Agent", resp.Request.Header.Get("User-Agent"))
+	req.Header = resp.Request.Header
 	req.Header.Set("Referer", resp.Request.URL.String())
 
-	log.Printf("Requesting %s?%s", u.String(), params.Encode())
 	client := http.Client{
 		Transport: t.upstream,
 		Jar:       t.cookies,
