@@ -14,7 +14,7 @@ func TestTransport(t *testing.T) {
 			t.Fatal(err)
 		}
 		w.Header().Set("Content-Type", "text/html")
-		w.Header().Set("Server", "cloudflare-nginx")
+		w.Header().Set("Server", "cloudflare")
 		w.WriteHeader(503)
 		w.Write(b)
 	}))

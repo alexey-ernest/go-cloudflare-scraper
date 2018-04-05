@@ -132,7 +132,7 @@ var jsRegexp = regexp.MustCompile(
 	`setTimeout\(function\(\){\s+(var ` +
 		`s,t,o,p,b,r,e,a,k,i,n,g,f.+?\r?\n[\s\S]+?a\.value =.+?)\r?\n`,
 )
-var jsReplace1Regexp = regexp.MustCompile(`a\.value = (parseInt\(.+?\)).+`)
+var jsReplace1Regexp = regexp.MustCompile(`a\.value = (.+) \+ .+`)
 var jsReplace2Regexp = regexp.MustCompile(`\s{3,}[a-z](?: = |\.).+`)
 var jsReplace3Regexp = regexp.MustCompile(`[\n\\']`)
 
