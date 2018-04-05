@@ -10,7 +10,6 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 	"regexp"
-	"strconv"
 	"time"
 
 	"github.com/robertkrimen/otto"
@@ -96,7 +95,7 @@ func (t Transport) solveChallenge(resp *http.Response) (*http.Response, error) {
 		return nil, err
 	}
 
-	params.Set("jschl_answer", strconv.Itoa(int(answer)+len(resp.Request.URL.Host)))
+	params.Set("jschl_answer", fmt.Sprintf("%.10f", answer + float64(len(resp.Request.URL.Host))))
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s?%s", u.String(), params.Encode()), nil)
 	if err != nil {
@@ -119,13 +118,13 @@ func (t Transport) solveChallenge(resp *http.Response) (*http.Response, error) {
 	return resp, nil
 }
 
-func (t Transport) evaluateJS(js string) (int64, error) {
+func (t Transport) evaluateJS(js string) (float64, error) {
 	vm := otto.New()
 	result, err := vm.Run(js)
 	if err != nil {
 		return 0, err
 	}
-	return result.ToInteger()
+	return result.ToFloat()
 }
 
 var jsRegexp = regexp.MustCompile(
