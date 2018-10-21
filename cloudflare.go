@@ -10,8 +10,8 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 	"regexp"
+	"strings"
 	"time"
-
 	"github.com/robertkrimen/otto"
 )
 
