@@ -58,7 +58,7 @@ func (t Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 
 	cookieString := strings.Join(cookiesStrings, "; ") + curCookies
 	r.Header.Set("Cookie", cookieString)
-	log.Printf("%s", cookieString)
+
 
 	resp, err := t.upstream.RoundTrip(r)
 	if err != nil {
@@ -69,8 +69,6 @@ func (t Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 	if resp.StatusCode == 503 && resp.Header.Get("Server") == "cloudflare" {
 		log.Printf("Solving challenge for %s", resp.Request.URL.Hostname())
 		resp, err := t.solveChallenge(resp)
-
-		log.Printf("%s", resp.Header.Get("Cookie"))
 
 		return resp, err
 	}
