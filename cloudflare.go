@@ -70,6 +70,8 @@ func (t Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 		log.Printf("Solving challenge for %s", resp.Request.URL.Hostname())
 		resp, err := t.solveChallenge(resp)
 
+		log.Printf("%s", res.Header.Get("Cookie"))
+
 		return resp, err
 	}
 
