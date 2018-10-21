@@ -43,6 +43,24 @@ func (t Transport) RoundTrip(r *http.Request) (*http.Response, error) {
 		r.Header.Set("User-Agent", userAgent)
 	}
 
+
+	// Merge cookies
+	cookies := t.cookies.Cookies(r.URL)
+	cookiesStrings := make([]string, 0)
+	for _, cookie := range cookies {
+		cookiesStrings = append(cookiesStrings, cookie.String())
+	}
+
+	// Prefix the seperator
+	curCookies := r.Header.Get("Cookie")
+	if len(curCookies) > 0 {
+		curCookies = "; " + curCookies
+	}
+
+	cookieString := strings.Join(cookiesStrings, "; ") + curCookies
+	r.Header.Set("Cookie", cookieString)
+
+
 	resp, err := t.upstream.RoundTrip(r)
 	if err != nil {
 		return nil, err
